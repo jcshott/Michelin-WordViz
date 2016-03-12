@@ -1,4 +1,7 @@
 from scrapy.spider import BaseSpider
+from scrapy.selector import HtmlXPathSelector
+from scrapy.contrib.loader import XPathItemLoader
+from scrapy.contrib.loader.processor import Join, MapCompose
 
 from yelp_app.items import YelpReview
 
@@ -8,7 +11,7 @@ class YelpSpider(BaseSpider, restaurant_id):
     allowed_domains = ["yelp.com"]
     start_urls = ["https://www.yelp.com/biz/" + restaurant_id]
 
-    deals_list_xpath = '//div[@class="review review--with-sidebar"]'
+    reviews_list_xpath = '//div[@class="review review--with-sidebar"]'
     item_fields = {
         'yelp_review_id': './/@data-review-id',
         'text': './/div[@class="review-wrapper"]/div[@class="review-content"]/p[@itemprop="description"]',
@@ -17,3 +20,10 @@ class YelpSpider(BaseSpider, restaurant_id):
         'reviewer_location': './/div[@class="review-sidebar"]/div[@class="review-sidebar-content"]/div[@class="ypassport media-block"]/div[@class="media-story"]/ul[@class="user-passport-info"]/li[@class="user-location"]/text()',
         'restraunt_id': restaurant_id
     }
+
+    def parse(self, response):
+
+        selector = HtmlXPathSelector(response)
+
+        for review in selector.select(self.reviews_list_xpath):
+            loader = XPathItemLoader(YelpReview(), selector=review)
