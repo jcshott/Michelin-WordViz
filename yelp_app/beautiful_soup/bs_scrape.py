@@ -1,6 +1,8 @@
 import json
 import os
+import random
 import re
+import time
 import urllib2
 
 from bs4 import BeautifulSoup
@@ -9,34 +11,45 @@ from bs4 import BeautifulSoup
 search_base_url = "https://www.yelp.com/biz/"
 restaurant = "benu-san-francisco-4"
 restaurant_name = "benu"
-search_suffix = "?start=20&sort_by=date_desc"
+search_suffix = "?sort_by=date_desc"
 starting_url = "https://www.yelp.com"
 
 
 
-def grab_review_objects(restaurant):
-    search_url = search_base_url + restaurant + search_suffix
+def grab_review_objects(search_url, max_depth=1):
+    rest_time = random.randint(5000, 60000)/1000.0
+    print "rest time is", rest_time
+    time.sleep(rest_time)
+    print "url is now", search_url
+
     contents = urllib2.urlopen(search_url).read()
     soup = BeautifulSoup(contents, "html.parser")
     biz_id = soup.find('a', attrs={'class':'edit-category', 'href':True}).attrs['href'] # grab the yelp biz id
     biz_id = biz_id.replace("/biz_attribute?biz_id=", "") # lop off the prefix
+    next = soup.find('a', attrs={'class':'next'})
     
     review_objs_list = []
     for review in soup.findAll('div', class_='review') :
         review_objs_list.append(review)
 
     review_objs_list = review_objs_list[1:] # first item is dummy
-    return review_objs_list, biz_id
+    next_page_reviews = []
+
+    if next and max_depth > 0:
+        next_page_reviews, _ = grab_review_objects(next.attrs['href'], max_depth-1)
+
+    return review_objs_list + next_page_reviews, biz_id
 
 
 def create_review_dicts(restaurant, existing_dict):
-    review_objs_list, biz_id = grab_review_objects(restaurant)
+    search_url = search_base_url + restaurant + search_suffix
+    review_objs_list, biz_id = grab_review_objects(search_url)
     review_dicts_20 = []
     for review in review_objs_list:
         review_dict = {}
         review_dict['review_id'] = review.attrs['data-review-id']
         review_dict['date'] = review.find('meta', attrs={'itemprop':'datePublished', 'content':True}).attrs['content']
-        review_dict['rating'] = review.find('meta', {'itemprop':'ratingValue', 'content':True}).attrs['content']
+        review_dict['rating'] = float(review.find('meta', {'itemprop':'ratingValue', 'content':True}).attrs['content'])
         review_dict['location'] = review.find('li', attrs={'class':'user-location'}).get_text().replace("\n","")
         review_dict['restaurant'] = restaurant
         review_dict['text'] = re.sub(ur'\u00a0','',review.find('p', attrs={'itemprop':'description'}).get_text(),re.UNICODE) # get rid of unicode
