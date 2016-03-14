@@ -2,3 +2,5 @@ env/
 secrets.sh
 *.pyc
 .DS_Store
+json/
+*.json
