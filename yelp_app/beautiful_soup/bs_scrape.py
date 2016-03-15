@@ -82,7 +82,7 @@ if __name__ == "__main__":
     
     search_base_url = "https://www.yelp.com/biz/"
     
-    # list of tuples (yelp_name, name) to scrape multiple restaurants in one run
+    # list of tuples (yelp name, name for file) to scrape multiple restaurants in one run
     # where tuple[0] = restaurant (as listed in yelp url (aka the yelp id)); tuple[1] = short name for output file
     restaurant_list = [("grace-chicago-3", "Grace"), ("alinea-chicago", "Alinea"), ("le-bernardin-new-york", "Le_Bernardine"), ("eleven-madison-park-new-york", "Eleven_Madison_Park")]
 
