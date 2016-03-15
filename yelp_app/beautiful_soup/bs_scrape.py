@@ -8,14 +8,6 @@ import urllib2
 from bs4 import BeautifulSoup
 
 
-search_base_url = "https://www.yelp.com/biz/" 
-restaurant = "benu-san-francisco-4" # change this to the correct retaurant
-restaurant_name = "benu" # useful for creating/naming the json file or sql table
-search_suffix = "?sort_by=date_desc"
-starting_url = "https://www.yelp.com"
-
-
-
 def grab_review_objects(search_url):
     rest_time = random.randint(5000, 60000)/1000.0 # before scraping the page, script will rest for between 5 to 60 secs
     print "rest time is", rest_time # print statements to see scraping progress
@@ -81,10 +73,23 @@ def dump_to_file(restaurant_name, review_dicts):
     f.close()
 
 
-def main():
+def main(restaurant_name, restaurant):
     review_dicts = load_file(restaurant_name)
     review_dicts = create_review_dicts(restaurant, review_dicts)
     dump_to_file(restaurant_name, review_dicts)
 
 if __name__ == "__main__":
-    main()
+    
+    search_base_url = "https://www.yelp.com/biz/"
+    
+    # list of tuples (yelp_name, name) to scrape multiple restaurants in one run
+    # where tuple[0] = restaurant (as listed in yelp url (aka the yelp id)); tuple[1] = short name for output file
+    restaurant_list = [("grace-chicago-3", "Grace"), ("alinea-chicago", "Alinea"), ("le-bernardin-new-york", "Le_Bernardine"), ("eleven-madison-park-new-york", "Eleven_Madison_Park")]
+
+    # restaurant = "benu-san-francisco-4" # change this to the correct retaurant
+    # restaurant_name = "benu" # useful for creating/naming the json file or sql table
+    search_suffix = "?sort_by=date_desc"
+    starting_url = "https://www.yelp.com"
+
+    for item in restaurant_list:
+        main(item[1], item[0])
