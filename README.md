@@ -32,7 +32,7 @@ yelp_review_viz/
 
 From the main project directory:
 
-```sh python
+```sh
 $ python runserver.py
 ```
 All routes should be written to <kdb>views.py</kdb>
