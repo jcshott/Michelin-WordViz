@@ -3,14 +3,10 @@
 ```
 yelp_review_viz/
 │   README.md
-│   runserver.py
+│   runserver.py (server)
+│    [all .py files]
 │
-└───yelp_review_viz/
-    │   __init__.py
-    │   views.py
-    │   [all .py files]
-    │
-    ├───static
+└──────static
     │   │
     │   │───css/
     │   │    style files
@@ -35,6 +31,6 @@ From the main project directory:
 ```sh
 $ python runserver.py
 ```
-All routes should be written to <kdb>views.py</kdb>
+All routes should be written to <kbd>runsever.py</kbd> file.
 
-All python files should be saved in the same directory as <kdb>__init__.py</kbd>
+All python files should be saved in the parent directory.
