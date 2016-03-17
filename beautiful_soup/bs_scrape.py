@@ -45,6 +45,7 @@ def create_review_dicts(restaurant, existing_dict):
         review_dict['location'] = review.find('li', attrs={'class':'user-location'}).get_text().replace("\n","")
         review_dict['restaurant'] = restaurant
         review_dict['text'] = re.sub(ur'\u00a0','',review.find('p', attrs={'itemprop':'description'}).get_text(),re.UNICODE) # get rid of unicode
+        review_dict['biz_id'] = biz_id # primary key in restaurants table, foreign key in reviews table
         review_dicts_20.append(review_dict)
 
     return existing_dict + review_dicts_20
