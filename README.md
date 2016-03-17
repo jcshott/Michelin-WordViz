@@ -3,7 +3,7 @@
 ```
 yelp_review_viz/
 │   README.md
-│   runserver.py    
+│   runserver.py
 │
 └───yelp_review_viz/
     │   __init__.py
@@ -23,7 +23,8 @@ yelp_review_viz/
     │
     └───templates/
     │   *.html files
-    │   
+│
+│───beautiful_soup/ [seed data]  
 ```
 
 
