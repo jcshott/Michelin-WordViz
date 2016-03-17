@@ -28,8 +28,23 @@ class Reviews(db.Model):
     
 
     def __repr__(self):
-        return "<Review ID=%s, Restaurant=%s, Rating=%s>" % (self.contrib_id, self.leg_id, self.amount)
+        return "<Review ID=%s, Restaurant=%s, Rating=%s>" % (self.review_id, self.restaurant_name, self.rating)
 
+class Restaurants(db.Model):
+    """ basic data for restaurants"""
+
+    __tablename__ = 'restaurants'
+
+    biz_id = db.Column(db.String(30), primary_key=True)
+    common_name = db.Column(db.String(50))
+    yelp_name = db.Column(db.String(80))
+    location = db.Column(db.String(100))
+    avg_yelp_rating = db.Column(db.Float)
+    michelin_stars = db.Column(db.Integer)
+
+    def __repr__(self):
+        return "<Biz ID=%s, Restaurant=%s, Avg. Rating=%s>" % (self.biz_id, self.common_name, self.avg_yelp_rating)
+ 
 
 ##############################################################################
 # Helper functions for flask app
