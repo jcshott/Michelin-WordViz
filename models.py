@@ -56,6 +56,7 @@ def connect_to_db(app):
     DATABASE_URL = os.environ.get("DATABASE_URL", 'postgresql://yelpproject@localhost:5432/yelpreviewviz')
 
     app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.app = app
     db.init_app(app)
