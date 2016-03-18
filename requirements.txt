@@ -1,7 +1,6 @@
 attrs==15.2.0
 beautifulsoup4==4.4.1
 cffi==1.5.2
-cryptography==1.2.3
 cssselect==0.9.1
 enum34==1.1.2
 Flask==0.10.1
@@ -19,7 +18,6 @@ pyasn1-modules==0.0.8
 pycparser==2.14
 pyOpenSSL==0.15.1
 queuelib==1.4.2
-Scrapy==1.0.5
 service-identity==16.0.0
 six==1.10.0
 SQLAlchemy==0.9.8
