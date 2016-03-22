@@ -4,3 +4,4 @@ secrets.sh
 .DS_Store
 *.json
 scrapy_version/*
+json_to_db.py
