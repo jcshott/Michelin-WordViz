@@ -8,7 +8,7 @@ import urllib2
 from bs4 import BeautifulSoup
 
 
-def grab_review_objects(search_url):
+def grab_review_objects(search_url, restaurant_name):
     rest_time = random.randint(5000, 60000)/1000.0 # before scraping the page, script will rest for between 5 to 60 secs
     print "rest time is", rest_time # print statements to see scraping progress
     time.sleep(rest_time)
@@ -18,6 +18,13 @@ def grab_review_objects(search_url):
     soup = BeautifulSoup(contents, "html.parser")
     biz_id = soup.find('a', attrs={'class':'edit-category', 'href':True}).attrs['href'] # grab the yelp biz id
     biz_id = biz_id.replace("/biz_attribute?biz_id=", "") # lop off the prefix
+    name = (soup.find('h1', attrs={'itemprop':'name'}).get_text()).strip()
+    print name
+    yelp_name = restaurant_name
+    avg_rating = float(soup.find('meta', {'itemprop':'ratingValue', 'content':True}).attrs['content'])
+    location = soup.find('span', attrs={'itemprop':'addressLocality'}).get_text() + ", " + soup.find('span', attrs={'itemprop':'addressRegion'}).get_text()
+    stars = 3
+
     next = soup.find('a', attrs={'class':'next'}) # look for the "next" page link
     
     review_objs_list = []
@@ -28,14 +35,14 @@ def grab_review_objects(search_url):
     next_page_reviews = []
 
     if next:
-        next_page_reviews, _ = grab_review_objects(next.attrs['href'])
+        next_page_reviews, _ = grab_review_objects(next.attrs['href'], restaurant_name)
 
     return review_objs_list + next_page_reviews, biz_id
 
 
 def create_review_dicts(restaurant, existing_dict):
     search_url = search_base_url + restaurant + search_suffix
-    review_objs_list, biz_id = grab_review_objects(search_url)
+    review_objs_list, biz_id = grab_review_objects(search_url, restaurant)
     review_dicts_20 = []
     for review in review_objs_list:
         review_dict = {}
@@ -85,7 +92,7 @@ if __name__ == "__main__":
     
     # list of tuples (yelp name, name for file) to scrape multiple restaurants in one run
     # where tuple[0] = restaurant (as listed in yelp url (aka the yelp id)); tuple[1] = short name for output file
-    restaurant_list = [("grace-chicago-3", "Grace"), ("alinea-chicago", "Alinea"), ("le-bernardin-new-york", "Le_Bernardine"), ("eleven-madison-park-new-york", "Eleven_Madison_Park")]
+    restaurant_list = [("jean-georges-new-york", "jeanGeorges"), ("chefs-table-at-brooklyn-fare-brooklyn-3", "brooklynFare")]
 
     # restaurant = "benu-san-francisco-4" # change this to the correct retaurant
     # restaurant_name = "benu" # useful for creating/naming the json file or sql table
