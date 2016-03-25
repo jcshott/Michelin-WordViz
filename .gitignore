@@ -5,3 +5,4 @@ secrets.sh
 *.json
 scrapy_version/*
 json_to_db.py
+scrape_to_json.py
