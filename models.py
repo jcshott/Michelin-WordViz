@@ -17,7 +17,7 @@ class Reviews(db.Model):
     __tablename__ = 'reviews'
 
     review_id = db.Column(db.String(30), primary_key=True)
-    restaurant_name = db.Column(db.String(20), nullable=False)
+    restaurant_name = db.Column(db.String(50), nullable=False)
     biz_id = db.Column(db.String(30), db.ForeignKey('restaurants.biz_id'), nullable=False)
     rating = db.Column(db.Float, nullable=False) 
     text = db.Column(db.Text, nullable=False)

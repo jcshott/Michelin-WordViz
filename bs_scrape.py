@@ -96,7 +96,7 @@ if __name__ == "__main__":
     starting_url = "https://www.yelp.com"
     restaurant_info = {}
     # the 3 star, US Michelin restaurants to gather data from yelp & dump to db
-    restaurant_list = ["jean-georges-new-york", "chefs-table-at-brooklyn-fare-brooklyn-3", "per-se-new-york", "masa-new-york", "alinea-chicago", "grace-chicago-3", ""]
+    restaurant_list = ["jean-georges-new-york", "chefs-table-at-brooklyn-fare-brooklyn-3", "per-se-new-york", "masa-new-york", "alinea-chicago", "grace-chicago-3", "le-bernardin-new-york", "eleven-madison-park-new-york", "benu-san-francisco-4", "the-french-laundry-yountville-2", "the-restaurant-at-meadowood-st-helena", "manresa-los-gatos-2", "saison-san-francisco-2"]
 
     for item in restaurant_list:
         restaurant_info = {} #clear the restaurant info dict for each new restaurant scraped
