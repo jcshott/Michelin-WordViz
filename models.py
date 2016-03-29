@@ -30,6 +30,7 @@ class Reviews(db.Model):
     def __repr__(self):
         return "<Review ID=%s, Restaurant=%s, Rating=%s>" % (self.review_id, self.restaurant_name, self.rating)
 
+
 class Restaurants(db.Model):
     """ basic data for restaurants"""
 
@@ -44,8 +45,16 @@ class Restaurants(db.Model):
 
     def __repr__(self):
         return "<Biz ID=%s, Restaurant=%s, Avg. Rating=%s>" % (self.biz_id, self.common_name, self.avg_yelp_rating)
- 
-
+    
+    def collect_words(self):
+        # given a retaurant, query the reviews table for review text
+        all_reviews = db.session.query(Reviews.text).filter_by(biz_id=self.biz_id).all()
+        # all_reviews is list of tuples so need to unpack just the review text
+        all_reviews_text = []
+        for tup in all_reviews:
+            all_reviews_text.append(tup[0])
+        
+        
 ##############################################################################
 # Helper functions for flask app
 
