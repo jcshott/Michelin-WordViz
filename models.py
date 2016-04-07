@@ -1,11 +1,11 @@
 """Models and database functions"""
 
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.dialects.postgresql import JSON
-
 import os 
 
+import nltk
 import psycopg2
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.dialects.postgresql import JSON
 
 
 db = SQLAlchemy()
@@ -34,6 +34,14 @@ class Reviews(db.Model):
 class Restaurants(db.Model):
     """ basic data for restaurants"""
 
+    # def __init__(self, biz_id=None, common_name=None, yelp_name=None, location=None, avg_yelp_rating=None, michelin_stars=3):
+    #     self.biz_id = biz_id
+    #     self.common_name=common_name
+    #     self.yelp_name=yelp_name
+    #     self.location=location
+    #     self.avg_yelp_rating=avg_yelp_rating
+    #     self.michelin_stars=michelin_stars
+
     __tablename__ = 'restaurants'
 
     biz_id = db.Column(db.String(30), primary_key=True)
@@ -46,6 +54,15 @@ class Restaurants(db.Model):
     def __repr__(self):
         return "<Biz ID=%s, Restaurant=%s, Avg. Rating=%s>" % (self.biz_id, self.common_name, self.avg_yelp_rating)
     
+    @staticmethod
+    def from_biz_id(target_biz_id):
+        restaurant = db.session.query(Restaurants).filter_by(biz_id=target_biz_id).one()
+        if restaurant:
+            return restaurant
+        else:
+            print "No such biz id"
+            return None
+
     def collect_words(self):
         # given a retaurant, query the reviews table for review text
         all_reviews = db.session.query(Reviews.text).filter_by(biz_id=self.biz_id).all()
@@ -53,6 +70,24 @@ class Restaurants(db.Model):
         all_reviews_text = []
         for tup in all_reviews:
             all_reviews_text.append(tup[0])
+        return all_reviews_text
+
+    def nltk_analysis(self):
+        all_reviews_list = self.collect_words()
+        all_reviews_list = all_reviews_list[0:10]
+        pos_dict = {}
+        for review in all_reviews_list:
+            print review
+            tokens = nltk.word_tokenize(review)
+            text = nltk.Text(tokens)
+            print text
+            tagged = nltk.pos_tag(text)
+            for tup in tagged:
+                word, pos = tup[0], tup[1]
+                pos_dict.setdefault(pos, set())
+                pos_dict[pos].add(word)
+
+        return pos_dict
         
         
 ##############################################################################
