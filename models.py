@@ -72,21 +72,21 @@ class Restaurants(db.Model):
             all_reviews_text.append(tup[0])
         return all_reviews_text
 
-    def nltk_analysis(self):
+    def determine_pos(self):
         all_reviews_list = self.collect_words()
-        all_reviews_list = all_reviews_list[0:10]
+        all_reviews_list = all_reviews_list
         pos_dict = {}
         for review in all_reviews_list:
-            print review
             tokens = nltk.word_tokenize(review)
-            text = nltk.Text(tokens)
-            print text
-            tagged = nltk.pos_tag(text)
+            tagged = nltk.pos_tag(tokens)
             for tup in tagged:
                 word, pos = tup[0], tup[1]
                 pos_dict.setdefault(pos, set())
                 pos_dict[pos].add(word)
+        for entry in pos_dict:
+            pos_dict[entry] = list(pos_dict[entry])
 
+        #print pos_dict
         return pos_dict
         
         
