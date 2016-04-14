@@ -6,7 +6,6 @@ import nltk
 import psycopg2
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import JSON
-from nltk.tokenize import RegexpTokenizer, word_tokenize, WordPunctTokenizer
 
 db = SQLAlchemy()
 
