@@ -77,7 +77,8 @@ class Restaurants(db.Model):
         all_reviews_list = all_reviews_list
         pos_dict = {}
         for review in all_reviews_list:
-            tokens = re.split('[\s\W]', review)
+            # split on non-alphanumeric, keep hyphenated words
+            tokens = re.split('[^-\w]', review)
             tokens = [token.lower() for token in tokens if token]
             tagged = nltk.pos_tag(tokens)
             for tup in tagged:

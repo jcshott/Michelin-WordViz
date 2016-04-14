@@ -27,8 +27,8 @@ if __name__ == "__main__":
 
     # list of tuples (name for file, yelp biz id) to analyze parts of speech (pos)
     # yelp biz id is the primary key of the Restaurants table
-	restaurant_tups = [("jeanGeorges", "PBUIaPtgnhmdHE3KHglK-g"), ("brooklynFare", "diCW3Pj1PTVRSyol_d7cZw"), ("perSe", "1DfbZ0VsSCg9g1KILmnvzQ"), ("masa", "t7BIiUN0tFg33kySuuQ0aQ"), ("alinea", "pbEiXam9YJL3neCYHGwLUA"), ("benu", "q2EbLD93gEO5uXXx7Pk3bw"), ("elevenMadisonPark", "nRO136GRieGtxz18uD61DA"), ("frenchLaundry", "T20VEwi7AzKbY2TuVEt_ig"), ("grace","34FOiHFyfGECttI8P2al7A"), ("leBernardine","vRrVSB-LegwUwIxpkeRVtQ"), ("manresa","Sq8CeLnv4Psa7c7GEISJgQ"), ("meadowood", "E1tTNluMJj293QifiLLSmA"), ("saison","XGHTrreDK35ciuA8R6naNQ")]
-
+	# restaurant_tups = [("jeanGeorges", "PBUIaPtgnhmdHE3KHglK-g"), ("brooklynFare", "diCW3Pj1PTVRSyol_d7cZw"), ("perSe", "1DfbZ0VsSCg9g1KILmnvzQ"), ("masa", "t7BIiUN0tFg33kySuuQ0aQ"), ("alinea", "pbEiXam9YJL3neCYHGwLUA"), ("benu", "q2EbLD93gEO5uXXx7Pk3bw"), ("elevenMadisonPark", "nRO136GRieGtxz18uD61DA"), ("frenchLaundry", "T20VEwi7AzKbY2TuVEt_ig"), ("grace","34FOiHFyfGECttI8P2al7A"), ("leBernardine","vRrVSB-LegwUwIxpkeRVtQ"), ("manresa","Sq8CeLnv4Psa7c7GEISJgQ"), ("meadowood", "E1tTNluMJj293QifiLLSmA"), ("saison","XGHTrreDK35ciuA8R6naNQ")]
+	restaurant_tups = [("jeanGeorges", "PBUIaPtgnhmdHE3KHglK-g")]
 	for tup in restaurant_tups:
 		restaurant_name, biz_id = tup[0], tup[1]
 		main(restaurant_name, biz_id)
