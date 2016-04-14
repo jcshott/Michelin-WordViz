@@ -1,12 +1,12 @@
 """Models and database functions"""
 
 import os 
-
+import re
 import nltk
 import psycopg2
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import JSON
-
+from nltk.tokenize import RegexpTokenizer, word_tokenize, WordPunctTokenizer
 
 db = SQLAlchemy()
 
@@ -77,7 +77,8 @@ class Restaurants(db.Model):
         all_reviews_list = all_reviews_list
         pos_dict = {}
         for review in all_reviews_list:
-            tokens = nltk.word_tokenize(review)
+            tokens = re.split('[\s\W]', review)
+            tokens = [token.lower() for token in tokens if token]
             tagged = nltk.pos_tag(tokens)
             for tup in tagged:
                 word, pos = tup[0], tup[1]
