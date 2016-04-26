@@ -1,7 +1,11 @@
+## Michelin WordViz ##
+
+The Michelin WordViz is a service for foodies to see visualizations of the most common words found in Yelp reviews of 3 star Michelin restaurants.
+
 ## File Structure: ##
 
 ```
-yelp_review_viz/
+Michelin-WordViz/
 │   README.md
 │   runserver.py (server)
 │    [all .py files]
